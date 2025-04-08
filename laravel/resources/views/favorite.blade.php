@@ -7,25 +7,28 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-blue-600 text-white p-4">
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white font-sans">
+
+    <nav class="bg-gray-900 border-b border-gray-700 p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">My Favorite Movies</h1>
-            <div class="flex items-center">
-                <a href="{{ route('dashboard') }}" class="mr-4">Dashboard</a>
-                <p class="mr-4">Welcome, {{ Auth::user()->name }}</p>
-                <form action="{{ route('logout') }}" method="POST">
+            <h1 class="text-2xl font-bold text-yellow-400">🎬 Movie Dashboard</h1>
+            <div class="flex items-center space-x-4">
+                <p class="text-gray-300">Welcome, {{ Auth::user()->name }}</p>
+                <form action="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/logout" method="POST">
                     @csrf
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Logout</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg font-semibold transition-all">Logout</button>
                 </form>
             </div>
         </div>
     </nav>
 
-    <div class="container mx-auto py-8">
+    <div class="container mx-auto py-10 px-4">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Your Favorite Movies</h2>
-            <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Back to Dashboard</a>
+            <h2 class="text-3xl font-bold text-white">Your Favorite Movies</h2>
+            <a href="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/dashboard"
+               class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 px-4 py-2 rounded-lg font-semibold transition-all">
+               🏠 Back to Dashboard
+            </a>
         </div>
 
         @if(session('success'))
@@ -35,48 +38,45 @@
         @endif
 
         @if($favorites->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @foreach($favorites as $movie)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        @if($movie->poster_url)
-                            <img src="{{ $movie->poster_url }}" alt="{{ $movie->title }}" class="w-full h-64 object-cover">
-                        @else
-                            <div class="w-full h-64 bg-gray-300 flex items-center justify-center">
-                                <span class="text-gray-500">No Image</span>
-                            </div>
-                        @endif
-                        <div class="p-4">
-                            <h4 class="font-bold">{{ $movie->title }}</h4>
-                            <p class="text-sm text-gray-600">{{ $movie->release_year }} | {{ $movie->genre }}</p>
-                            <p class="text-sm mt-2 line-clamp-3">{{ $movie->description }}</p>
-                            <div class="mt-3">
-                                <form action="{{ route('favorites.toggle', $movie) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                                        Remove from Favorites
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="mt-6">
-                {{ $favorites->links() }}
+            <div class="overflow-x-auto bg-gray-800 rounded-lg shadow-md">
+                <table class="min-w-full table-auto text-gray-300">
+                    <thead>
+                        <tr class="bg-gray-900">
+                            <th class="px-4 py-2 text-left">Title</th>
+                            <th class="px-4 py-2 text-left">Year</th>
+                            <th class="px-4 py-2 text-left">Genre</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($favorites as $movie)
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">{{ $movie->title }}</td>
+                                <td class="px-4 py-2">{{ $movie->release_year }}</td>
+                                <td class="px-4 py-2">{{ $movie->genre }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-400 line-clamp-3">{{ $movie->description }}</td>
+                                <td class="px-4 py-2">
+                                    <form action="{{ url('favorites/'.$movie->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         @else
-            <div class="bg-gray-100 p-8 rounded text-center">
+            <div class="bg-gray-700 p-8 rounded text-center">
                 <p class="text-xl mb-4">You haven't added any movies to your favorites yet.</p>
-                <a href="{{ route('dashboard') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Discover Movies</a>
+                <a href="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/dashboard" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Discover Movies</a>
             </div>
         @endif
     </div>
 
-    <footer class="bg-gray-800 text-white p-6 mt-12">
-        <div class="container mx-auto">
-            <p class="text-center">© {{ date('Y') }} Movie Collection. All rights reserved.</p>
-        </div>
-    </footer>
 </body>
 </html>

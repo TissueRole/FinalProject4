@@ -16,25 +16,16 @@ class FavoriteController extends Controller
     public function toggle(Movie $movie)
     {
         $user = Auth::user();
-        
+
         if ($user->hasFavorited($movie)) {
             $user->favorites()->detach($movie->id);
             $message = 'Movie removed from favorites';
-            $status = 'removed';
         } else {
             $user->favorites()->attach($movie->id);
             $message = 'Movie added to favorites';
-            $status = 'added';
         }
-        
-        if (request()->wantsJson()) {
-            return response()->json([
-                'status' => $status,
-                'message' => $message
-            ]);
-        }
-        
-        return back()->with('success', $message);
+
+        return redirect()->route('dashboard')->with('success', $message);
     }
     
     public function index()

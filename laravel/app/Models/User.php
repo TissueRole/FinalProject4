@@ -49,4 +49,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Movie::class, 'favorites')->withTimestamps();
     }
+
+    public function hasFavorited(Movie $movie)
+    {
+        return $this->favorites()->where('movie_id', $movie->id)->exists();
+    }
+
 }
