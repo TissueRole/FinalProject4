@@ -29,7 +29,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-        return redirect('https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/dashboard')
+        return redirect('dashboard')
         ->with('success', 'Registration successful!');
     }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/dashboard')
+            return redirect('dashboard')
         ->with('success', 'Logged in successfully!');
         }
 

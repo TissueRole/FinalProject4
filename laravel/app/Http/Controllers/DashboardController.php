@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $movies = Movie::orderBy('created_at', 'desc')->take(10)->get();
+        $movies = Movie::orderBy('created_at', 'desc')->take(50)->get();
         
         $favorites = Auth::user()->favorites()->get();
         

@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{movie}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::delete('/favorites/{movie}', [FavoriteController::class, 'remove'])->name('favorites.remove');
 });
 
 Route::get('/', function () {

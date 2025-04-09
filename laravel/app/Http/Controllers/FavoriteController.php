@@ -18,14 +18,12 @@ class FavoriteController extends Controller
         $user = Auth::user();
 
         if ($user->hasFavorited($movie)) {
-            $user->favorites()->detach($movie->id);
-            $message = 'Movie removed from favorites';
-        } else {
-            $user->favorites()->attach($movie->id);
-            $message = 'Movie added to favorites';
+
+            return redirect()->route('favorites.index')->with('success', "{$movie->title} is already in your favorites!");
         }
 
-        return redirect()->route('dashboard')->with('success', $message);
+        $user->favorites()->attach($movie->id);
+        return redirect()->route('favorites.index')->with('success', "{$movie->title} is added to favorites");
     }
     
     public function index()
@@ -33,4 +31,13 @@ class FavoriteController extends Controller
         $favorites = Auth::user()->favorites()->paginate(12);
         return view('favorite', compact('favorites'));
     }
+
+    public function remove(Movie $movie)
+    {
+        $user = Auth::user();
+
+        $user->favorites()->detach($movie->id);
+        return redirect()->route('favorites.index')->with('success', "{$movie->title} has been removed from your favorites.");
+    }
+
 }

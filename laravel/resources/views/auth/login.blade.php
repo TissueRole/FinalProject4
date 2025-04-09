@@ -10,10 +10,8 @@
 
     <div class="bg-gray-900 shadow-xl rounded-xl p-8 w-full max-w-md border border-gray-700">
         <h1 class="text-3xl font-extrabold mb-6 text-center text-yellow-400">🎬 LeMovie</h1>
-
-        <form action="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/login" method="POST" class="space-y-4">
+        <form action="{{ route('login', [], false) }}" method="POST" class="space-y-4">
             @csrf
-
             <div>
                 <label for="email" class="block mb-1 text-sm text-gray-300">Email</label>
                 <input type="email" name="email" id="email" required
@@ -33,7 +31,7 @@
 
             <p class="text-sm text-center text-gray-400">
                 Don’t have an account?
-                <a href="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/register" class="text-yellow-400 hover:underline">Register here</a>
+                <a href="{{ route('register', [], false) }}" class="text-yellow-400 hover:underline">Register here</a>
             </p>
         </form>
     </div>

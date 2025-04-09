@@ -11,7 +11,7 @@
     <div class="bg-gray-900 shadow-xl rounded-xl p-8 w-full max-w-md border border-gray-700">
         <h1 class="text-3xl font-extrabold mb-6 text-center text-yellow-400">🎥 Create Your Account</h1>
 
-        <form action="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/register" method="POST" class="space-y-4">
+        <form action="{{ route('register', [], false) }}" method="POST" class="space-y-4">
             @csrf
 
             <div>
@@ -49,7 +49,7 @@
 
             <p class="text-sm text-center text-gray-400">
                 Already have an account?
-                <a href="https://jubilant-succotash-qgxwq97p49rh44w-8000.app.github.dev/login" class="text-yellow-400 hover:underline">Login here</a>
+                <a href="{{ route('login', [], false) }}" class="text-yellow-400 hover:underline">Login here</a>
             </p>
         </form>
     </div>
